@@ -127,6 +127,59 @@ namespace PDFReader.ViewModels
             _logger = logger;
         }
 
+        public void MarkAsRead()
+        {
+            var pathMainFolder = SelectFolderToSaveReadFiles();
+
+            var nameFolder = Path.GetFileName(BackDirectories(SelectedPdf.FullPath, 2));
+
+            var nameToSave = $"{nameFolder} - {SelectedPdf.FileName}";
+
+            var pathTxt = Path.Combine(pathMainFolder, "assistidos.txt");
+
+            if (!File.Exists(pathTxt))
+            {
+                using (var stream = File.Create(pathTxt)) { }
+            }
+
+            File.AppendAllTextAsync(pathTxt, nameToSave + System.Environment.NewLine);
+
+            MessageBox.Show("Marcado como visto com sucesso", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public static string BackDirectories(string path, int level)
+        {
+            if (level <= 0) return path;
+
+            string result = path;
+            for (int i = 0; i < level; i++)
+            {
+                var parent = Directory.GetParent(result);
+                if (parent == null) break;
+                result = parent.FullName;
+            }
+
+            return result;
+        }
+
+        public string SelectFolderToSaveReadFiles()
+        {
+            var dlg = new CommonOpenFileDialog
+            {
+                IsFolderPicker = true,
+                Title = "Selecione a pasta que deseja salvar os PDFs lidos",
+                Multiselect = false,
+                EnsurePathExists = true
+            };
+
+            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                return dlg.FileName;
+            }
+
+            return string.Empty;
+        }
+
         public void SelectFolder()
         {
             var dlg = new CommonOpenFileDialog

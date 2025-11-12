@@ -23,6 +23,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -43,7 +44,7 @@
             <Button x:Name="SelectFolder" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Content="Selecionar Pasta com PDFs" Width="210" Height="40" Background="#F0F0F5" Foreground="#353535" BorderBrush="#353535" materialDesign:ButtonAssist.CornerRadius="6" Visibility="{Binding IsSidebarVisible, Converter={StaticResource BoolToVis}}" Margin="5 0 5 0" />
         </StackPanel>
 
-        <StackPanel Grid.Row="2" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"
+        <StackPanel Grid.Row="3" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2"
             HorizontalAlignment="Center" VerticalAlignment="Center">
             <Image Width="700" Height="500">
                 <Image.Source>
@@ -59,17 +60,19 @@
                TextWrapping="Wrap" MaxWidth="600"/>
         </StackPanel>
 
-        <TextBlock Grid.Row="1" Grid.Column="0" Text="Arquivos Encontrados"
+        <Button Grid.Row="1" Grid.Column="0" x:Name="MarkAsRead" Style="{StaticResource MaterialDesignFlatDarkBgButton}" Content="Marcar como visto" Width="210" Height="30" Background="#353535" Foreground="#F0F0F5" BorderBrush="#F0F0F5" materialDesign:ButtonAssist.CornerRadius="6" Visibility="{Binding IsTitleItemsVisible, Converter={StaticResource BoolToVis}}" />
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Arquivos Encontrados"
         Foreground="#353535" FontSize="17"
         HorizontalAlignment="Center" Margin="10" TextAlignment="Center" FontWeight="Bold" MaxWidth="600" Visibility="{Binding IsTitleItemsVisible, Converter={StaticResource BoolToVis}}"/>
 
-        <ListBox Grid.Row="2" Grid.RowSpan="2" Grid.Column="0"
+        <ListBox Grid.Row="3" Grid.RowSpan="2" Grid.Column="0"
                  ItemsSource="{Binding PdfFiles}"
                  SelectedItem="{Binding SelectedPdf, Mode=TwoWay}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  DisplayMemberPath="FileName" FontSize="16" Visibility="{Binding IsSidebarVisible, Converter={StaticResource BoolToVis}}"/>
 
-        <Border Grid.Row="0" Grid.RowSpan="5" Grid.Column="1">
+        <Border Grid.Row="0" Grid.RowSpan="6" Grid.Column="1">
             <wpf:WebView2 x:Name="PdfWebView"
                           Source="{Binding SelectedPdfUri, Mode=OneWay}"
                           Loaded="PdfWebView_Loaded" />
